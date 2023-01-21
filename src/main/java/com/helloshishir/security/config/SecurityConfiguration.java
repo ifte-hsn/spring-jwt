@@ -1,7 +1,5 @@
 package com.helloshishir.security.config;
 
-import jakarta.servlet.Filter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,7 @@ public class SecurityConfiguration {
 
     @Autowired
     JwtAuthenticationFilter jwtAuthFilter;
+
     @Autowired
     AuthenticationProvider authenticationProvider;
 
