@@ -1,15 +1,11 @@
 package com.helloshishir.security.auth;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter
+@Getter
+@ToString
 public class AuthenticationRequest {
     String email;
     String password;
