@@ -24,8 +24,14 @@ public class User implements UserDetails {
     String email;
     String password;
 
+    String username;
+
     @Enumerated(EnumType.STRING)
     Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_type")
+    private AuthenticationType authType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

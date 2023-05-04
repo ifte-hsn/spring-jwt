@@ -11,6 +11,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserDao userDao;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username);
@@ -22,5 +25,11 @@ public class UserService implements UserDetailsService {
 
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+    public void updateAuthenticationType(String username, String oauth2ClientName) {
+        AuthenticationType authType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
+        userDao.updateAuthenticationType(username, authType);
+        System.out.println("Updated user's authentication type to " + authType);
     }
 }

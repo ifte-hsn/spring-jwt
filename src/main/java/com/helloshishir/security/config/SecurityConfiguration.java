@@ -1,5 +1,7 @@
 package com.helloshishir.security.config;
 
+import com.helloshishir.security.OAuthLoginSuccessHandler;
+import com.helloshishir.security.service.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +22,19 @@ public class SecurityConfiguration {
     @Autowired
     AuthenticationProvider authenticationProvider;
 
+
+    @Autowired
+    private CustomOAuth2UserService oauth2UserService;
+
+    @Autowired
+    private OAuthLoginSuccessHandler oauthLoginSuccessHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/v1/home/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/","/api/v1/auth/**", "/socialLogin")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -36,7 +43,17 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login()
+                .loginPage("/socialLogin")
+                .defaultSuccessUrl("/loginSuccess")
+                .userInfoEndpoint()
+                .userService(oauth2UserService)
+                .and()
+                .successHandler(oauthLoginSuccessHandler)
+                .and()
+                .logout()
+                .logoutSuccessUrl("/").permitAll();
 
         return http.build();
     }

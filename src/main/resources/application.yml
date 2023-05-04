@@ -1,4 +1,14 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 821843855579-1oteo6prb96g5p82jk137gdglg3s717u.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
   datasource:
     url: jdbc:mysql://localhost:3306/jwt_security
     username: root
@@ -6,7 +16,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -14,4 +24,4 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
 server:
-  port: 8081
+  port: 8080
